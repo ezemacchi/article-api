@@ -33,9 +33,16 @@ namespace article_api.DataAccess.Repositories
             return article.Id;
         }
 
-        public Task<bool> Delete(Guid id)
+        public async Task<bool> Delete(Guid id)
         {
-            throw new NotImplementedException();
+            var article = _appDbContext.Articles.FirstOrDefault(art => art.Id == id);
+
+            if (article == null) return false;
+
+            _appDbContext.Articles.Remove(article);
+            await _appDbContext.SaveChangesAsync();
+
+            return true;
         }
 
         public Article Get(Guid id)

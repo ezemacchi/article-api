@@ -11,5 +11,7 @@ namespace article_api.BusinessLogic.Services
         ArticleDto GetArticleById(Guid id);
 
         Task<bool> UpdateArticleById(UpdateArticleRequest updateArticleRequest);
+
+        Task<bool> DeleteArticleById(Guid id);
     }
 }

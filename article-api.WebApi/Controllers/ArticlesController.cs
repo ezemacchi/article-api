@@ -46,5 +46,15 @@ namespace article_api.WebApi.Controllers
 
             return NotFound("Article not found");
         }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteArticleById(Guid id)
+        {
+            var isDeleted = await _articlesService.DeleteArticleById(id);
+
+            if (isDeleted) return Ok();
+
+            return NotFound("Article not found");
+        }
     }
 }

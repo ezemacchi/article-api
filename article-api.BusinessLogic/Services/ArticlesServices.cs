@@ -27,6 +27,11 @@ namespace article_api.BusinessLogic.Services
             return _mapper.Map<ArticleDto>(article);
         }
 
+        public async Task<bool> DeleteArticleById(Guid id)
+        {
+            return await _articlesRepository.Delete(id);
+        }
+
         public ArticleDto GetArticleById(Guid id)
         {
             var article = _articlesRepository.Get(id);
