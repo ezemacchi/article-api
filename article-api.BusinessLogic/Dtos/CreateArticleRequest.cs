@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace article_api.BusinessLogic.Dtos.CreateArticle
+namespace article_api.BusinessLogic.Dtos
 {
     public class CreateArticleRequest
     {

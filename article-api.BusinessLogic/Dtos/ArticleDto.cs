@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace article_api.BusinessLogic.Dtos.CreateArticle
+namespace article_api.BusinessLogic.Dtos
 {
-    public class CreateArticleResponse
+    public class ArticleDto
     {
         public Guid Id { get; set; }
 

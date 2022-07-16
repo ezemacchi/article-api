@@ -1,4 +1,4 @@
-﻿using article_api.BusinessLogic.Dtos.CreateArticle;
+﻿using article_api.BusinessLogic.Dtos;
 using article_api.Domain.Models;
 using AutoMapper;
 
@@ -9,7 +9,7 @@ namespace article_api.BusinessLogic.Profiles
         public ArticleProfile()
         {
             CreateMap<CreateArticleRequest, Article>();
-            CreateMap<Article, CreateArticleResponse>();
+            CreateMap<Article, ArticleDto>();
         }
     }
 }
