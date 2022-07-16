@@ -35,5 +35,12 @@ namespace article_api.BusinessLogic.Services
 
             return response;
         }
+
+        public async Task<bool> UpdateArticleById(UpdateArticleRequest updateArticleRequest)
+        {
+            var article = _mapper.Map<Article>(updateArticleRequest);
+
+            return await _articlesRepository.Update(article);
+        }
     }
 }

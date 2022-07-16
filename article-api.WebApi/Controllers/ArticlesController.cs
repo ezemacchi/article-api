@@ -22,7 +22,7 @@ namespace article_api.WebApi.Controllers
         {
             var articleResponse = await _articlesService.CreateArticle(article);
 
-            return CreatedAtAction(nameof(GetArticleById), new { id= articleResponse.Id}, articleResponse);
+            return CreatedAtAction(nameof(GetArticleById), new { id = articleResponse.Id }, articleResponse);
         }
 
         [HttpGet("{id}")]
@@ -31,6 +31,18 @@ namespace article_api.WebApi.Controllers
             var articleResponse = _articlesService.GetArticleById(id);
 
             if (articleResponse != null) return Ok(articleResponse);
+
+            return NotFound("Article not found");
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateArticleById([FromRoute] Guid id, [FromBody]UpdateArticleRequest updateArticleRequest)
+        {
+            updateArticleRequest.Id = id;
+
+            var isUpdated = await _articlesService.UpdateArticleById(updateArticleRequest);
+
+            if (isUpdated) return Ok();
 
             return NotFound("Article not found");
         }

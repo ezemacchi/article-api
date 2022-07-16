@@ -1,5 +1,6 @@
 ﻿using article_api.Common.Exceptions;
 using article_api.Domain.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -39,14 +40,26 @@ namespace article_api.DataAccess.Repositories
 
         public Article Get(Guid id)
         {
-            var article = _appDbContext.Articles.FirstOrDefault(article => article.Id == id);
+            var article = _appDbContext.Articles
+                .AsNoTracking()
+                .FirstOrDefault(article => article.Id == id);
 
             return article;
         }
 
-        public Task<bool> Update(Article articleToUpdate)
+        public async Task<bool> Update(Article articleToUpdate)
         {
-            throw new NotImplementedException();
+            var article = _appDbContext.Articles.FirstOrDefault(art => art.Id == articleToUpdate.Id);
+
+            if (article == null) return false;
+
+            article.Text = articleToUpdate.Text;
+            article.Title = articleToUpdate.Title;
+
+            _appDbContext.Update(article);
+            await _appDbContext.SaveChangesAsync();
+
+            return true;
         }
     }
 }

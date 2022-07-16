@@ -9,5 +9,7 @@ namespace article_api.BusinessLogic.Services
         Task<ArticleDto> CreateArticle(CreateArticleRequest articleRequest);
 
         ArticleDto GetArticleById(Guid id);
+
+        Task<bool> UpdateArticleById(UpdateArticleRequest updateArticleRequest);
     }
 }
