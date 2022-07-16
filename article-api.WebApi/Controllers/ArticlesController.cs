@@ -1,4 +1,4 @@
-﻿using article_api.BusinessLogic.Dtos.CreateArticle;
+﻿using article_api.BusinessLogic.Dtos;
 using article_api.BusinessLogic.Services;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -22,13 +22,17 @@ namespace article_api.WebApi.Controllers
         {
             var articleResponse = await _articlesService.CreateArticle(article);
 
-            return CreatedAtAction(nameof(GetArticle), new { id= articleResponse.Id}, articleResponse);
+            return CreatedAtAction(nameof(GetArticleById), new { id= articleResponse.Id}, articleResponse);
         }
 
         [HttpGet("{id}")]
-        public IActionResult GetArticle(Guid id)
+        public IActionResult GetArticleById(Guid id)
         {
-            return Ok();
+            var articleResponse = _articlesService.GetArticleById(id);
+
+            if (articleResponse != null) return Ok(articleResponse);
+
+            return NotFound("Article not found");
         }
     }
 }
