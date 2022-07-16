@@ -31,32 +31,7 @@ namespace article_api.IntegrationTests.Configurations
 
                     //Add InMemoryDb for testing
                     services.AddDbContext<AppDbContext>(opt => opt.UseInMemoryDatabase("InMemoryTestingDb"));
-
-                    var serviceProvider = services.BuildServiceProvider();
-
-                    using(var scope = serviceProvider.CreateScope())
-                    {
-                        var scopedServices = scope.ServiceProvider;
-                        var db = scopedServices.GetRequiredService<AppDbContext>();
-                        var logger = scopedServices.GetRequiredService<ILogger<IntegrationTestsFactory<TStartup>>>();
-
-                        db.Database.EnsureCreated();
-
-                        try
-                        {
-                            SeedDatabase(db);
-                        }
-                        catch (Exception ex)
-                        {
-                            logger.LogError(ex, $"Error occured seeding the database, Error: {ex.Message}");
-                        }
-                    }
                 });
-        }
-
-        private void SeedDatabase(AppDbContext db)
-        {
-
         }
     }
 }
