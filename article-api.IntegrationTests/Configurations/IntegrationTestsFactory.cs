@@ -3,11 +3,11 @@ using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.Configuration;
 using System.IO;
 
-namespace article_api.IntegrationTests
+namespace article_api.IntegrationTests.Configurations
 {
     public class IntegrationTestsFactory<TStartup> : WebApplicationFactory<TStartup> where TStartup : class
     {
-        public IConfigurationRoot Configuration{ get; set; }
+        public IConfigurationRoot Configuration { get; set; }
 
         protected override void ConfigureWebHost(IWebHostBuilder builder)
         {
@@ -16,7 +16,7 @@ namespace article_api.IntegrationTests
                 {
                     configurationBuilder.SetBasePath(Directory.GetCurrentDirectory());
                     configurationBuilder.AddJsonFile("appsettings.json");
-                });           
+                });
         }
     }
 }
