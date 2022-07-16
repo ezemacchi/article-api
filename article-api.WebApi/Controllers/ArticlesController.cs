@@ -1,5 +1,6 @@
 ﻿using article_api.BusinessLogic.Dtos;
 using article_api.BusinessLogic.Services;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
@@ -17,7 +18,9 @@ namespace article_api.WebApi.Controllers
             _articlesService = articlesService;
         }
 
-        [HttpPost]
+        [HttpPost(Name = "Create a new article")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ArticleDto))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> CreateArticle(CreateArticleRequest article)
         {
             var articleResponse = await _articlesService.CreateArticle(article);
@@ -25,7 +28,10 @@ namespace article_api.WebApi.Controllers
             return CreatedAtAction(nameof(GetArticleById), new { id = articleResponse.Id }, articleResponse);
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{id}", Name= "Get an article with a given identifier")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ArticleDto))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public IActionResult GetArticleById(Guid id)
         {
             var articleResponse = _articlesService.GetArticleById(id);
@@ -35,7 +41,10 @@ namespace article_api.WebApi.Controllers
             return NotFound("Article not found");
         }
 
-        [HttpPut("{id}")]
+        [HttpPut("{id}", Name= "Update an article by updating its identifier to the given one")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> UpdateArticleById([FromRoute] Guid id, [FromBody]UpdateArticleRequest updateArticleRequest)
         {
             updateArticleRequest.Id = id;
@@ -47,7 +56,10 @@ namespace article_api.WebApi.Controllers
             return NotFound("Article not found");
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("{id}", Name= "Delete an article with a given identifier")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> DeleteArticleById(Guid id)
         {
             var isDeleted = await _articlesService.DeleteArticleById(id);
