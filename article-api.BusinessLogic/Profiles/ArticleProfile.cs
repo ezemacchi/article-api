@@ -9,7 +9,9 @@ namespace article_api.BusinessLogic.Profiles
         public ArticleProfile()
         {
             CreateMap<CreateArticleRequest, Article>();
+            CreateMap<UpdateArticleRequest, Article>();
             CreateMap<Article, ArticleDto>();
+
         }
     }
 }
