@@ -23,7 +23,7 @@ I took some assumptions that maybe are wrong, for example
 - I added the service layer, to decouple the domain model, with the dto.
 - Also changed the IRepository to IArticlesRepository because the methods where tied to the Article, so the name was misleading
 
-Also there are some considirations unfinished
+Also there are some considerations unfinished
 - The Integration Tests need a revision on the use of the inMemory Database, lacks use of a setup and dispose method for each test
 - Maybe I would take an approach of Vertical Slice, but I have more experience on Clean Architecture layered, so I choose the last
 - Also, will be good, if I could add some example to the swagger documentation
