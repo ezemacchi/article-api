@@ -9,6 +9,8 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="3.1.27" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.27" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="3.1.27" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.5.0" />
     <PackageReference Include="System.Net.Http.Json" Version="6.0.0" />
     <PackageReference Include="xunit" Version="2.4.1" />
@@ -19,6 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\article-api.DataAccess\article-api.DataAccess.csproj" />
     <ProjectReference Include="..\article-api.Domain\article-api.Domain.csproj" />
     <ProjectReference Include="..\article-api.WebApi\article-api.WebApi.csproj" />
   </ItemGroup>
