@@ -9,6 +9,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "article-api.IntegrationTest
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "article-api.Domain", "article-api.Domain\article-api.Domain.csproj", "{593CAB3F-2503-4079-9DC7-16EA7CC2E7F8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "article-api.DataAccess", "article-api.DataAccess\article-api.DataAccess.csproj", "{EB398322-1F18-4B13-BB56-52ED6A159A9A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "article-api.Common", "article-api.Common\article-api.Common.csproj", "{A50FDBDA-DAB0-45E3-B230-56BAE7340722}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +31,14 @@ Global
 		{593CAB3F-2503-4079-9DC7-16EA7CC2E7F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{593CAB3F-2503-4079-9DC7-16EA7CC2E7F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{593CAB3F-2503-4079-9DC7-16EA7CC2E7F8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EB398322-1F18-4B13-BB56-52ED6A159A9A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EB398322-1F18-4B13-BB56-52ED6A159A9A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EB398322-1F18-4B13-BB56-52ED6A159A9A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EB398322-1F18-4B13-BB56-52ED6A159A9A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A50FDBDA-DAB0-45E3-B230-56BAE7340722}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A50FDBDA-DAB0-45E3-B230-56BAE7340722}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A50FDBDA-DAB0-45E3-B230-56BAE7340722}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A50FDBDA-DAB0-45E3-B230-56BAE7340722}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
