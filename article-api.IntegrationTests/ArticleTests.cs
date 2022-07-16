@@ -94,6 +94,29 @@ namespace article_api.IntegrationTests
             Assert.Equal("Article not found", response);
         }
 
+        [Fact]
+        public async Task Update_Article_By_Id_Success()
+        {
+            var httpClient = _factory.CreateClient();
+            var context = GetDbContext();
+
+            var id = Guid.Parse("7d34d51a-c3ad-4e92-8fd1-c69777026f44");
+            var article = new Article { Id = id, Text = "Test text", Title = "Test title" };
+            context.Articles.Add(article);
+            context.SaveChanges();
+
+            var updateArticleRequest = new UpdateArticleRequest { Title = "new test title", Text = "new test text" };
+
+            var responseMessage = await httpClient.PutAsJsonAsync($"{Url}/{id}", updateArticleRequest);
+
+            var updatedArticle = context.Articles.Find(id);
+            context.Dispose();
+
+            Assert.Equal(HttpStatusCode.OK, responseMessage.StatusCode);
+            Assert.Equal(updateArticleRequest.Title, updatedArticle.Title);
+            Assert.Equal(updateArticleRequest.Text, updatedArticle.Text);
+        }
+
         private AppDbContext GetDbContext()
         {
             var scopeFactory = _factory.Services.GetService<IServiceScopeFactory>();
