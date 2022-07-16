@@ -81,7 +81,7 @@ namespace article_api.IntegrationTests
             var httpClient = _factory.CreateClient();
             var context = GetDbContext();
 
-            var id = Guid.Parse("7d34d51a-c3ad-4e92-8fd1-c69777026f43");
+            var id = Guid.Parse("7d34d51a-c3ad-4e92-8fd1-c69877026f43");
             var article = new Article { Id = id, Text = "Test text", Title = "Test title" };
             context.Articles.Add(article);
             context.SaveChanges();
@@ -131,6 +131,7 @@ namespace article_api.IntegrationTests
             var article = new Article { Id = id, Text = "Test text", Title = "Test title" };
             context.Articles.Add(article);
             context.SaveChanges();
+            context.Dispose();
 
             var updateArticleRequest = new UpdateArticleRequest { Title = "new test title", Text = "new test text" };
 
@@ -151,11 +152,54 @@ namespace article_api.IntegrationTests
 
             var id = Guid.Parse("7d5c7649-1fef-42ad-888f-350a12afc56c");
             var responseMessage = await httpClient.PutAsJsonAsync($"{Url}/{id}", updateArticleRequest);
-            var response = await responseMessage.Content.ReadAsStringAsync();
 
             Assert.Null(updateArticleRequest.Title);
             Assert.Equal(HttpStatusCode.BadRequest, responseMessage.StatusCode);
             //TODO check ErrorMessage
+        }
+
+        [Fact]
+        public async Task Delete_Article_By_Id_Success()
+        {
+            var httpClient = _factory.CreateClient();
+            var context = GetDbContext();
+
+            var id = Guid.Parse("7d34d51a-c3ad-4e92-8fd1-c69777026f53");
+            var article = new Article { Id = id, Text = "Test text", Title = "Test title" };
+            context.Articles.Add(article);
+            context.SaveChanges();
+
+            var responseMessage = await httpClient.DeleteAsync($"{Url}/{id}");
+
+            var result = context.Articles.Find(id);
+            context.Dispose();
+
+            Assert.Equal(HttpStatusCode.OK, responseMessage.StatusCode);
+            Assert.Null(result);
+        }
+
+        [Fact]
+        public async Task Delete_Article_By_Id_NotFound()
+        {
+            var httpClient = _factory.CreateClient();
+            var context = GetDbContext();
+
+            var id = Guid.Parse("7d34d51a-c3ad-4e92-8fd1-c69777026f93");
+            var article = new Article { Id = id, Text = "Test text", Title = "Test title" };
+            context.Articles.Add(article);
+            context.SaveChanges();
+
+            var wrongId = Guid.Parse("7d5c7649-1fef-42ad-888f-351a12afc56a");
+
+            var responseMessage = await httpClient.DeleteAsync($"{Url}/{wrongId}");
+            var response = await responseMessage.Content.ReadAsStringAsync();
+
+            var result = context.Articles.Find(id);
+            context.Dispose();
+
+            Assert.NotNull(result);
+            Assert.Equal(HttpStatusCode.NotFound, responseMessage.StatusCode);
+            Assert.Equal("Article not found", response);
         }
 
         private AppDbContext GetDbContext()
