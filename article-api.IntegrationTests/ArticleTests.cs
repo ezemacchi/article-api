@@ -1,6 +1,8 @@
+using article_api.BusinessLogic.Dtos.CreateArticle;
+using article_api.DataAccess;
 using article_api.IntegrationTests.Configurations;
 using article_api.WebApi;
-using article_api.WebApi.Dtos.CreateArticle;
+using Microsoft.Extensions.DependencyInjection;
 using System.Net;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
@@ -23,15 +25,24 @@ namespace article_api.IntegrationTests
         public async Task Create_New_Article_Success()
         {
             var httpClient = _factory.CreateClient();
-            var article = new CreateArticleRequest { Title = "Some article", Text = "Hello World!" };
+            var articleRequest = new CreateArticleRequest { Title = "Some article", Text = "Hello World!" };
 
-            var responseMessage = await httpClient.PostAsJsonAsync(Url, article);
+            var responseMessage = await httpClient.PostAsJsonAsync(Url, articleRequest);
             var response = await responseMessage.Content.ReadFromJsonAsync<CreateArticleResponse>();
+
+            var scopeFactory = _factory.Services.GetService<IServiceScopeFactory>();
+            using (var scope = scopeFactory.CreateScope())
+            {
+                var context = scope.ServiceProvider.GetService<AppDbContext>();
+
+                var article = context.Articles.Find(response.Id);
+                Assert.Equal(article.Id, response.Id);
+            }
 
             Assert.Equal(HttpStatusCode.Created, responseMessage.StatusCode);
             Assert.Equal($"{Url}/{response.Id}", responseMessage.Headers.Location.PathAndQuery);
-            Assert.Equal(article.Title, response.Title);
-            Assert.Equal(article.Text, response.Text);
+            Assert.Equal(articleRequest.Title, response.Title);
+            Assert.Equal(articleRequest.Text, response.Text);
         }
 
         [Fact]
