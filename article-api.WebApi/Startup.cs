@@ -1,3 +1,4 @@
+using article_api.DataAccess;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -29,6 +30,8 @@ namespace article_api.WebApi
                 });
 
             services.AddSwaggerGen();
+
+            services.AddRepositories(Configuration.GetConnectionString("Default"));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
