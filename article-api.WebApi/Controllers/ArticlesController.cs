@@ -1,6 +1,8 @@
-﻿using article_api.WebApi.Dtos.CreateArticle;
+﻿using article_api.BusinessLogic.Dtos.CreateArticle;
+using article_api.BusinessLogic.Services;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Threading.Tasks;
 
 namespace article_api.WebApi.Controllers
 {
@@ -8,10 +10,17 @@ namespace article_api.WebApi.Controllers
     [Route("api/[controller]")]
     public class ArticlesController : ControllerBase
     {
-        [HttpPost]
-        public IActionResult CreateArticle(CreateArticleRequest article)
+        private readonly IArticlesServices _articlesService;
+
+        public ArticlesController(IArticlesServices articlesService)
         {
-            var articleResponse = new CreateArticleResponse { Id = Guid.NewGuid(), Text = article.Text, Title = article.Title };
+            _articlesService = articlesService;
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateArticle(CreateArticleRequest article)
+        {
+            var articleResponse = await _articlesService.CreateArticle(article);
 
             return CreatedAtAction(nameof(GetArticle), new { id= articleResponse.Id}, articleResponse);
         }
