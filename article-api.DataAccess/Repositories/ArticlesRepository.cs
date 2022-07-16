@@ -1,6 +1,7 @@
 ﻿using article_api.Common.Exceptions;
 using article_api.Domain.Models;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace article_api.DataAccess.Repositories
@@ -36,9 +37,11 @@ namespace article_api.DataAccess.Repositories
             throw new NotImplementedException();
         }
 
-        public Task<Article> Get(Guid id)
+        public Article Get(Guid id)
         {
-            throw new NotImplementedException();
+            var article = _appDbContext.Articles.FirstOrDefault(article => article.Id == id);
+
+            return article;
         }
 
         public Task<bool> Update(Article articleToUpdate)

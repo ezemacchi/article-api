@@ -7,7 +7,7 @@ namespace article_api.DataAccess.Repositories
     public interface IArticlesRepository
     {
         // Returns a found article or null.
-        Task<Article> Get(Guid id);
+        Article Get(Guid id);
 
         // Returns the identifier of a created article.
         // Throws an exception if an article is null.
