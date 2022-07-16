@@ -41,7 +41,6 @@ namespace article_api.IntegrationTests
             var article = new CreateArticleRequest { Text = "Hello World!" };
 
             var responseMessage = await httpClient.PostAsJsonAsync(Url, article);
-            var response = await responseMessage.Content.ReadFromJsonAsync<CreateArticleResponse>();
 
             Assert.Null(article.Title);
             Assert.Equal(HttpStatusCode.BadRequest, responseMessage.StatusCode);
