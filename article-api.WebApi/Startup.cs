@@ -1,3 +1,4 @@
+using article_api.BusinessLogic;
 using article_api.DataAccess;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -30,7 +31,9 @@ namespace article_api.WebApi
                 });
 
             services.AddSwaggerGen();
+            services.AddAutoMapper(typeof(Startup));
 
+            services.AddServices();
             services.AddRepositories(Configuration.GetConnectionString("Default"));
         }
 
