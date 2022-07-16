@@ -1,8 +1,10 @@
 using article_api.BusinessLogic.Dtos.CreateArticle;
 using article_api.DataAccess;
+using article_api.Domain.Models;
 using article_api.IntegrationTests.Configurations;
 using article_api.WebApi;
 using Microsoft.Extensions.DependencyInjection;
+using System;
 using System.Net;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
@@ -30,20 +32,18 @@ namespace article_api.IntegrationTests
             var responseMessage = await httpClient.PostAsJsonAsync(Url, articleRequest);
             var response = await responseMessage.Content.ReadFromJsonAsync<CreateArticleResponse>();
 
-            var scopeFactory = _factory.Services.GetService<IServiceScopeFactory>();
-            using (var scope = scopeFactory.CreateScope())
-            {
-                var context = scope.ServiceProvider.GetService<AppDbContext>();
+            var context = GetDbContext();
+            var article = context.Articles.Find(response.Id);
+            context.Dispose();
 
-                var article = context.Articles.Find(response.Id);
-                Assert.Equal(article.Id, response.Id);
-            }
-
+            Assert.Equal(article.Id, response.Id);
             Assert.Equal(HttpStatusCode.Created, responseMessage.StatusCode);
             Assert.Equal($"{Url}/{response.Id}", responseMessage.Headers.Location.PathAndQuery);
             Assert.Equal(articleRequest.Title, response.Title);
             Assert.Equal(articleRequest.Text, response.Text);
         }
+
+        
 
         [Fact]
         public async Task Create_New_Article_BadRequest()
@@ -55,6 +55,30 @@ namespace article_api.IntegrationTests
 
             Assert.Null(article.Title);
             Assert.Equal(HttpStatusCode.BadRequest, responseMessage.StatusCode);
+        }
+
+        [Fact]
+        public async Task Get_Article_By_Id_Sucess()
+        {
+            var httpClient = _factory.CreateClient();
+            var context = GetDbContext();
+
+            var id = Guid.NewGuid();
+            var article = new Article { Id = id, Text = "Test text", Title = "Test title" };
+            context.Articles.Add(article);
+
+            var responseMessage = await httpClient.GetAsync($"Url/{article.Id}");
+            var response = await responseMessage.Content.ReadFromJsonAsync<GetArticleResponse>();
+
+            Assert.Equal(article.Id, response.Id);
+            Assert.Equal(HttpStatusCode.OK, responseMessage.StatusCode);
+        }
+
+        private AppDbContext GetDbContext()
+        {
+            var scopeFactory = _factory.Services.GetService<IServiceScopeFactory>();
+            var scope = scopeFactory.CreateScope();
+            return scope.ServiceProvider.GetService<AppDbContext>();
         }
     }
 }
