@@ -25,7 +25,7 @@ namespace article_api.DataAccess.Repositories
                 throw new BusinessException("Cannot add an article without title");
             }
 
-            _appDbContext.Add(article);
+            _appDbContext.Articles.Add(article);
             await _appDbContext.SaveChangesAsync();
 
             return article.Id;

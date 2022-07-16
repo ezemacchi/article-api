@@ -7,6 +7,6 @@ namespace article_api.DataAccess
     {
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 
-        DbSet<Article> Articles { get; set; }
+        public DbSet<Article> Articles { get; set; }
     }
 }
