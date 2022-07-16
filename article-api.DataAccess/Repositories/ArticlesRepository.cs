@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace article_api.DataAccess.Repositories
 {
-    public class ArticlesRepository : IRepository
+    public class ArticlesRepository : IArticlesRepository
     {
         private readonly AppDbContext _appDbContext;
 

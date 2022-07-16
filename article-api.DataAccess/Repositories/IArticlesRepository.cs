@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace article_api.DataAccess.Repositories
 {
-    public interface IRepository
+    public interface IArticlesRepository
     {
         // Returns a found article or null.
         Task<Article> Get(Guid id);
