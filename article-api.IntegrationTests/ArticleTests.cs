@@ -1,6 +1,6 @@
-using article_api.Domain.Models;
 using article_api.IntegrationTests.Configurations;
 using article_api.WebApi;
+using article_api.WebApi.Dtos.CreateArticle;
 using System.Net;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
@@ -23,15 +23,28 @@ namespace article_api.IntegrationTests
         public async Task Create_New_Article_Success()
         {
             var httpClient = _factory.CreateClient();
-            var article = new Article { Title = "Some article", Text = "Hello World!" };
+            var article = new CreateArticleRequest { Title = "Some article", Text = "Hello World!" };
 
             var responseMessage = await httpClient.PostAsJsonAsync(Url, article);
-            var response = await responseMessage.Content.ReadFromJsonAsync<Article>();
+            var response = await responseMessage.Content.ReadFromJsonAsync<CreateArticleResponse>();
 
             Assert.Equal(HttpStatusCode.Created, responseMessage.StatusCode);
             Assert.Equal($"{Url}/{response.Id}", responseMessage.Headers.Location.PathAndQuery);
             Assert.Equal(article.Title, response.Title);
             Assert.Equal(article.Text, response.Text);
+        }
+
+        [Fact]
+        public async Task Create_New_Article_BadRequest()
+        {
+            var httpClient = _factory.CreateClient();
+            var article = new CreateArticleRequest { Text = "Hello World!" };
+
+            var responseMessage = await httpClient.PostAsJsonAsync(Url, article);
+            var response = await responseMessage.Content.ReadFromJsonAsync<CreateArticleResponse>();
+
+            Assert.Null(article.Title);
+            Assert.Equal(HttpStatusCode.BadRequest, responseMessage.StatusCode);
         }
     }
 }
