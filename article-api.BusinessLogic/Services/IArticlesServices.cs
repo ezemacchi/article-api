@@ -1,10 +1,13 @@
-﻿using article_api.BusinessLogic.Dtos.CreateArticle;
+﻿using article_api.BusinessLogic.Dtos;
+using System;
 using System.Threading.Tasks;
 
 namespace article_api.BusinessLogic.Services
 {
     public interface IArticlesServices
     {
-        Task<CreateArticleResponse> CreateArticle(CreateArticleRequest articleRequest);
+        Task<ArticleDto> CreateArticle(CreateArticleRequest articleRequest);
+
+        ArticleDto GetArticleById(Guid id);
     }
 }
