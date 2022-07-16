@@ -171,6 +171,9 @@ namespace article_api.IntegrationTests
 
             var responseMessage = await httpClient.DeleteAsync($"{Url}/{id}");
 
+            //Have an error without this line, the entity wasn't changed after updating, probably the way of using the scope is the real problem
+            context.Entry(article).Reload();
+
             var result = context.Articles.Find(id);
             context.Dispose();
 
