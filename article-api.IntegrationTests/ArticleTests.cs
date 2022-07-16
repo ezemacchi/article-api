@@ -12,7 +12,7 @@ namespace article_api.IntegrationTests
     {
         private readonly IntegrationTestsFactory<Startup> _factory;
 
-        private const string Url = "/api/articles";
+        private const string Url = "/api/Articles";
 
         public ArticleTests(IntegrationTestsFactory<Startup> factory)
         {
