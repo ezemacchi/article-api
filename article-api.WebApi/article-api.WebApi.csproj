@@ -15,6 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\article-api.BusinessLogic\article-api.BusinessLogic.csproj" />
     <ProjectReference Include="..\article-api.DataAccess\article-api.DataAccess.csproj" />
   </ItemGroup>
 
