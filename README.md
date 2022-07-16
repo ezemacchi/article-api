@@ -26,4 +26,5 @@ I took some assumptions that maybe are wrong, for example
 Also there are some considerations unfinished
 - The Integration Tests need a revision on the use of the inMemory Database, lacks use of a setup and dispose method for each test
 - Maybe I would take an approach of Vertical Slice, but I have more experience on Clean Architecture layered, so I choose the last
-- Also, will be good, if I could add some example to the swagger documentation
+- It will be good, if I could add some example to the swagger documentation
+- I usually wrap projects on folders, for example, "1. WebApi" "2. BusinessLogic"...etc, so when you code, can see in order the flow of the application
